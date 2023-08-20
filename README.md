@@ -1,3 +1,5 @@
+Code along with John Smilga
+
 #### Complete App
 
 [Jobify](https://jobify.live/)
