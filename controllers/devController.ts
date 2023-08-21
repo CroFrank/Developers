@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import crypto from 'node:crypto'
+import { DevModel } from '../models/DevModel.js'
 
 let developers = [
     { id: crypto.randomUUID(), name: 'Mike Tyson', skills: 'javascript' },
@@ -11,18 +12,10 @@ export const getAllDevs =
         res.status(200).json({ developers })
     }
 
-export const createNewDev =
-    (req: Request, res: Response) => {
-        const { name, skills } = req.body
-        if (!name || !skills) {
-            return res.status(400).json({ msg: "please provide name and skills" })
-        }
-        const id = crypto.randomUUID()
-        const dev = { id, name, skills }
-        developers.push(dev)
-        res.status(200).json({ dev })
-    }
-
+export const createNewDev = async (req: Request, res: Response) => {
+    const dev = await DevModel.create('fs')
+    res.status(200).json({ dev })
+}
 
 export const getSpecificDev =
     (req: Request, res: Response) => {

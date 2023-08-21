@@ -1,6 +1,8 @@
+import 'express-async-errors';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import mongoose from 'mongoose';
 import morgan from 'morgan';
 import devRouter from './routes/devRouter.js';
 const app = express();
@@ -21,6 +23,18 @@ app.use((err, req, res, next) => {
     res.status(500);
 });
 const port = process.env.PORT;
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+if (!process.env.MONGO_URL) {
+    console.error("MONGO_URL environment variable is not set.");
+    process.exit(1);
+}
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(port, () => {
+        console.log(`Listening on port ${port}`);
+    });
+})
+    .catch(error => {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
 });

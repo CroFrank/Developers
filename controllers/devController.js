@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { DevModel } from '../models/DevModel.js';
 let developers = [
     { id: crypto.randomUUID(), name: 'Mike Tyson', skills: 'javascript' },
     { id: crypto.randomUUID(), name: 'Zoran Malenica', skills: 'HTML' },
@@ -6,14 +7,8 @@ let developers = [
 export const getAllDevs = (req, res) => {
     res.status(200).json({ developers });
 };
-export const createNewDev = (req, res) => {
-    const { name, skills } = req.body;
-    if (!name || !skills) {
-        return res.status(400).json({ msg: "please provide name and skills" });
-    }
-    const id = crypto.randomUUID();
-    const dev = { id, name, skills };
-    developers.push(dev);
+export const createNewDev = async (req, res) => {
+    const dev = await DevModel.create('fs');
     res.status(200).json({ dev });
 };
 export const getSpecificDev = (req, res) => {
