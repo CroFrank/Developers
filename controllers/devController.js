@@ -1,44 +1,35 @@
-import crypto from 'node:crypto';
 import { DevModel } from '../models/DevModel.js';
-let developers = [
-    { id: crypto.randomUUID(), name: 'Mike Tyson', skills: 'javascript' },
-    { id: crypto.randomUUID(), name: 'Zoran Malenica', skills: 'HTML' },
-];
-export const getAllDevs = (req, res) => {
-    res.status(200).json({ developers });
+import { StatusCodes } from 'http-status-codes';
+import { NotFoundError } from '../errors/customErrors.js';
+export const getAllDevs = async (req, res) => {
+    const devs = await DevModel.find({});
+    res.status(StatusCodes.OK).json({ devs });
 };
 export const createNewDev = async (req, res) => {
-    const dev = await DevModel.create('fs');
-    res.status(200).json({ dev });
+    const dev = await DevModel.create(req.body);
+    res.status(StatusCodes.CREATED).json(dev);
 };
-export const getSpecificDev = (req, res) => {
+export const getSpecificDev = async (req, res) => {
     const { id } = req.params;
-    const dev = developers.find((dev) => dev.id === id);
+    const dev = await DevModel.findById(id);
     if (!dev) {
-        return res.status(404).json({ msg: `no dev with id: ${id}` });
+        throw new NotFoundError('no dev with that id');
     }
-    res.status(200).json(dev);
+    res.status(StatusCodes.OK).json(dev);
 };
-export const updateSpecificDev = (req, res) => {
-    const { name, skills } = req.body;
-    if (!name || !skills) {
-        return res.status(400).json({ msg: "please provide name and skills" });
-    }
+export const updateSpecificDev = async (req, res) => {
     const { id } = req.params;
-    const dev = developers.find((dev) => dev.id === id);
+    const dev = await DevModel.findByIdAndUpdate(id, req.body, { new: true });
     if (!dev) {
-        return res.status(404).json({ msg: `no dev with id: ${id}` });
+        throw new NotFoundError('no dev with that id');
     }
-    dev.name = name;
-    dev.skills = skills;
-    res.status(200).json({ msg: 'Developer modified', dev });
+    res.status(StatusCodes.OK).json({ msg: 'Developer modified', dev: dev });
 };
-export const deleteDev = (req, res) => {
+export const deleteDev = async (req, res) => {
     const { id } = req.params;
-    const dev = developers.find((dev) => dev.id === id);
+    const dev = await DevModel.findByIdAndDelete(id);
     if (!dev) {
-        return res.status(404).json({ msg: `no dev with id: ${id}` });
+        throw new NotFoundError('no dev with that id');
     }
-    const deleteDev = developers.filter((dev) => dev.id !== id);
-    res.status(200).json(deleteDev);
+    res.status(StatusCodes.OK).send({ msg: "deleteted", dev: dev });
 };

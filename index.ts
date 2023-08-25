@@ -1,10 +1,12 @@
 import 'express-async-errors'
 import * as dotenv from 'dotenv'
 dotenv.config()
-import express, { ErrorRequestHandler } from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
 import devRouter from './routes/devRouter.js'
+import { errorHandleMiddelware } from './middleware/errorHandleMiddelware.js'
+import { validationMiddelware } from './middleware/validationMiddelware.js'
 
 const app = express()
 
@@ -13,21 +15,20 @@ if (process.env.NODE_ENV) {
     app.use(morgan('dev'))
 }
 
-app.get('/', (req, res) => {
-    res.send('Hello World! There')
+app.post('/api/v1/test', validationMiddelware, (req, res) => {
+    const { name } = req.body
+    res.json({ msg: `hello ${name}` })
 })
 
 //all routes
 app.use('/api/v1/alldevelopers', devRouter)
 
+//error handling
 app.use('*', (req, res) => {
     res.status(404).json({ msg: 'Page not found' })
 })
 
-app.use((err: ErrorRequestHandler, req: express.Request, res: express.Response, next: express.NextFunction): void => {
-    console.log(err)
-    res.status(500)
-})
+app.use(errorHandleMiddelware)
 
 const port = process.env.PORT
 

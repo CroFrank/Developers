@@ -7,7 +7,7 @@ export default function Landing() {
     return (
         <Wrapper>
             <nav>
-                <Logo />
+                <Logo width={false} />
             </nav>
             <div className="container page">
                 <div className="info">

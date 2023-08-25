@@ -1,56 +1,41 @@
-import { Request, Response } from 'express';
-import crypto from 'node:crypto'
+import { RequestHandler } from 'express';
 import { DevModel } from '../models/DevModel.js'
+import { StatusCodes } from 'http-status-codes';
+import { NotFoundError } from '../errors/customErrors.js'
 
-let developers = [
-    { id: crypto.randomUUID(), name: 'Mike Tyson', skills: 'javascript' },
-    { id: crypto.randomUUID(), name: 'Zoran Malenica', skills: 'HTML' },
-]
-
-export const getAllDevs =
-    (req: Request, res: Response) => {
-        res.status(200).json({ developers })
-    }
-
-export const createNewDev = async (req: Request, res: Response) => {
-    const dev = await DevModel.create('fs')
-    res.status(200).json({ dev })
+export const getAllDevs: RequestHandler = async (req, res) => {
+    const devs = await DevModel.find({})
+    res.status(StatusCodes.OK).json({ devs })
 }
 
-export const getSpecificDev =
-    (req: Request, res: Response) => {
-        const { id } = req.params
-        const dev = developers.find((dev) => dev.id === id)
-        if (!dev) {
-            return res.status(404).json({ msg: `no dev with id: ${id}` })
-        }
-        res.status(200).json(dev)
-    }
+export const createNewDev: RequestHandler = async (req, res) => {
+    const dev = await DevModel.create(req.body)
+    res.status(StatusCodes.CREATED).json(dev)
+}
 
-export const updateSpecificDev =
-    (req: Request, res: Response) => {
-        const { name, skills } = req.body
-        if (!name || !skills) {
-            return res.status(400).json({ msg: "please provide name and skills" })
-        }
-        const { id } = req.params
-        const dev = developers.find((dev) => dev.id === id)
-        if (!dev) {
-            return res.status(404).json({ msg: `no dev with id: ${id}` })
-        }
-        dev.name = name;
-        dev.skills = skills
-        res.status(200).json({ msg: 'Developer modified', dev })
+export const getSpecificDev: RequestHandler = async (req, res) => {
+    const { id } = req.params
+    const dev = await DevModel.findById(id)
+    if (!dev) {
+        throw new NotFoundError('no dev with that id')
     }
+    res.status(StatusCodes.OK).json(dev)
+}
 
-
-export const deleteDev =
-    (req: Request, res: Response) => {
-        const { id } = req.params
-        const dev = developers.find((dev) => dev.id === id)
-        if (!dev) {
-            return res.status(404).json({ msg: `no dev with id: ${id}` })
-        }
-        const deleteDev = developers.filter((dev) => dev.id !== id)
-        res.status(200).json(deleteDev)
+export const updateSpecificDev: RequestHandler = async (req, res) => {
+    const { id } = req.params
+    const dev = await DevModel.findByIdAndUpdate(id, req.body, { new: true })
+    if (!dev) {
+        throw new NotFoundError('no dev with that id')
     }
+    res.status(StatusCodes.OK).json({ msg: 'Developer modified', dev: dev })
+}
+
+export const deleteDev: RequestHandler = async (req, res) => {
+    const { id } = req.params
+    const dev = await DevModel.findByIdAndDelete(id)
+    if (!dev) {
+        throw new NotFoundError('no dev with that id')
+    }
+    res.status(StatusCodes.OK).send({ msg: "deleteted", dev: dev })
+}
