@@ -5,8 +5,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
 import devRouter from './routes/devRouter.js'
+import userRouter from './routes/userRouter.js'
 import { errorHandleMiddelware } from './middleware/errorHandleMiddelware.js'
-import { validationMiddelware } from './middleware/validationMiddelware.js'
 
 const app = express()
 
@@ -15,12 +15,7 @@ if (process.env.NODE_ENV) {
     app.use(morgan('dev'))
 }
 
-app.post('/api/v1/test', validationMiddelware, (req, res) => {
-    const { name } = req.body
-    res.json({ msg: `hello ${name}` })
-})
-
-//all routes
+app.use('/api/v1/auth', userRouter)
 app.use('/api/v1/alldevelopers', devRouter)
 
 //error handling
