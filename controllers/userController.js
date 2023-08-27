@@ -1,6 +1,8 @@
 import { UserModel } from '../models/UserModel.js';
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from '../utils/passUtils.js';
+import { comparePasswords, hashPassword } from '../utils/passUtils.js';
+import { UnauthenticatedError } from '../errors/customErrors.js';
+import { createJWT } from '../utils/tokenUtils.js';
 export const createNewUser = async (req, res) => {
     const isFirst = await UserModel.countDocuments() === 0;
     req.body.role = isFirst ? 'admin' : 'user';
@@ -9,6 +11,17 @@ export const createNewUser = async (req, res) => {
     res.status(StatusCodes.CREATED).json({ user, msg: 'user created' });
 };
 export const loginUser = async (req, res) => {
-    const user = await UserModel.create(req.body);
-    res.status(StatusCodes.CREATED).json(user);
+    const user = await UserModel.findOne({ email: req.body.email });
+    if (!user)
+        throw new UnauthenticatedError('email do not exist');
+    const isGoodPass = await comparePasswords(req.body.password, user.password);
+    if (!isGoodPass)
+        throw new UnauthenticatedError('invalid password');
+    const token = createJWT({ userId: user._id, role: user.role });
+    res.cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + (1000 * 3600 * 24)),
+        secure: process.env.NODE_ENV === 'production'
+    });
+    res.status(StatusCodes.OK).json({ msg: 'user logged in' });
 };

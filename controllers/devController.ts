@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { NotFoundError } from '../errors/customErrors.js'
 
 export const getAllDevs: RequestHandler = async (req, res) => {
+    console.log(req.user)
     const devs = await DevModel.find({})
     res.status(StatusCodes.OK).json({ devs })
 }
