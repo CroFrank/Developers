@@ -1,13 +1,35 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/Dashboard'
 import { BigSidebar, Navbar, SmallSidebar } from '../components'
 import { useState } from 'react'
 import { DashboardContext } from '../hooks/DashboardContext'
+import { customFetch } from '../utils/customFetch'
+import { toast } from 'react-toastify'
+
+export const Loader = async () => {
+    try {
+        const data = await customFetch('/stats/current-user')
+        return data
+    } catch (err) {
+        return redirect('/')
+    }
+}
+
+interface Data {
+    _id: string,
+    name: string,
+    email: string,
+    role: string,
+    __v: number
+}
 
 export default function DashboardLayout({ checkSavedTheme }: { checkSavedTheme: () => boolean }) {
-
-
-    const user = { name: 'Fran' }
+    const data = useLoaderData() as { data: { user: Data } }
+    const navigate = useNavigate()
+    if (!data) {
+        throw new Error('no user')
+    }
+    const { user } = data.data
     const [showSidebar, setShowSidebar] = useState(false)
     const [isDarkTheme, setIsDarkTheme] = useState(checkSavedTheme)
 
@@ -21,8 +43,10 @@ export default function DashboardLayout({ checkSavedTheme }: { checkSavedTheme: 
         localStorage.setItem('theme', theme.toString())
     }
 
-    const logoutUser = () => {
-        console.log('logiut')
+    const logoutUser = async () => {
+        navigate('/')
+        await customFetch('/user/logout')
+        toast.success('User logged out!')
     }
 
     return (
@@ -43,7 +67,7 @@ export default function DashboardLayout({ checkSavedTheme }: { checkSavedTheme: 
                     <div>
                         <Navbar />
                         <div className="dashboard-page">
-                            <Outlet />
+                            <Outlet context={{ user }} />
                         </div>
                     </div>
                 </main>

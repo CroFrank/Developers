@@ -4,7 +4,6 @@ import Wrapper from '../assets/wrappers/ErrorPage'
 
 export default function Error() {
     const error = useRouteError()
-    console.log(error)
     if (isRouteErrorResponse(error)) {
         if (error.status === 404) {
             return (

@@ -12,6 +12,9 @@ import {
     Stats,
     Developer,
 } from './pages'
+import { RegisterAction } from './pages/Register'
+import { LoginAction } from './pages/Login'
+import { Loader } from './pages/DashboardLayout'
 
 const checkSavedTheme = () => {
     const darkTheme = localStorage.getItem('theme') === 'true'
@@ -34,14 +37,17 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 element: <Register />,
+                action: RegisterAction
             },
             {
                 path: 'login',
                 element: <Login />,
+                action: LoginAction
             },
             {
                 path: 'dashboard',
                 element: <DashboardLayout checkSavedTheme={() => checkSavedTheme()} />,
+                loader: Loader,
                 children: [
                     {
                         index: true,

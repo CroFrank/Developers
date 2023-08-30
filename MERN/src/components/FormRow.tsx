@@ -18,7 +18,7 @@ export default function FormRow({
             </label>
             <input
                 type={type}
-                id="name"
+                id={name}
                 name={name}
                 className="form-input"
                 defaultValue={defaultValue}

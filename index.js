@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import devRouter from './routes/devRouter.js';
 import userRouter from './routes/userRouter.js';
+import statsRouter from './routes/statsRouter.js';
 import { errorHandleMiddelware } from './middleware/errorHandleMiddelware.js';
 import { authUser } from './middleware/authMiddelware.js';
 import cookieParser from 'cookie-parser';
@@ -15,8 +16,9 @@ app.use(express.json());
 if (process.env.NODE_ENV) {
     app.use(morgan('dev'));
 }
-app.use('/api/v1/auth', userRouter);
+app.use('/api/v1/user', userRouter);
 app.use('/api/v1/alldevelopers', authUser, devRouter);
+app.use('/api/v1/stats', authUser, statsRouter);
 //error handling
 app.use('*', (req, res) => {
     res.status(404).json({ msg: 'Page not found' });
