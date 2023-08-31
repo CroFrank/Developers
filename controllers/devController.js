@@ -2,7 +2,7 @@ import { DevModel } from '../models/DevModel.js';
 import { StatusCodes } from 'http-status-codes';
 import { NotFoundError } from '../errors/customErrors.js';
 export const getAllDevs = async (req, res) => {
-    const devs = await DevModel.find({ createdBy: req.user?.user.userId });
+    const devs = await DevModel.find({});
     res.status(StatusCodes.OK).json({ devs });
 };
 export const createNewDev = async (req, res) => {

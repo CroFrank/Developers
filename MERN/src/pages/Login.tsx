@@ -31,13 +31,11 @@ export default function Register() {
                 <FormRow
                     type="email"
                     name="email"
-                    defaultValue="Erik@gmail.com"
                     labelText="email"
                 />
                 <FormRow
                     type="password"
                     name="password"
-                    defaultValue="modio"
                     labelText="password"
                 />
                 <button type="submit" className="btn btn-block" disabled={isSubmitting}>

@@ -1,12 +1,11 @@
 import { z } from 'zod'
 import { validateRequest } from 'zod-express-middleware';
-import { UserModel } from '../models/UserModel.js';
 
 export const devBodyValSchema = z.object({
     name: z.string().min(3, { message: 'Name - too short' }).max(18, { message: 'Name - too long' }),
-    age: z.number().min(0, { message: 'Can not be negative' }).max(120),
+    age: z.string().min(0, { message: 'Can not be negative' }).max(120),
     location: z.string().min(2, { message: 'Location - too short' }).max(45, { message: 'Location - too long' }),
-    skills: z.array(z.string().min(2))
+    skills: z.string().min(2)
 })
 
 export const devParamsValSchema = z.object({

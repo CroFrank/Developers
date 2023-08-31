@@ -8,7 +8,7 @@ export const links = [
     { text: 'add your skills', path: '.', icon: <FaComputer /> },
     {
         text: 'all developers',
-        path: 'alldevelopers',
+        path: 'alldevs',
         icon: <PiTreeStructureFill />,
     },
     { text: 'stats', path: 'stats', icon: <IoBarChartSharp /> },

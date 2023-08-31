@@ -1,15 +1,15 @@
 interface FormRowPropsTypes {
     type: string
     name: string
-    defaultValue: string
     labelText: string
+    defaultValue?: string
 }
 
 export default function FormRow({
     type,
     name,
-    defaultValue,
     labelText,
+    defaultValue
 }: FormRowPropsTypes) {
     return (
         <div className="form-row">

@@ -28,17 +28,29 @@ const Wrapper = styled.article`
     }
     .info {
         h5 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.7rem;
         }
         p {
             margin: 0;
             text-transform: capitalize;
             letter-spacing: var(--letter-spacing);
             color: var(--text-secondary-color);
+            margin-bottom: 0.5rem;
         }
     }
     .content {
         padding: 1rem 1.5rem;
+        h5 {
+            margin-bottom: 0.7rem;
+        }
+        p {
+            margin: 0;
+            text-transform: capitalize;
+            letter-spacing: var(--letter-spacing);
+            color: var(--text-secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        hr {}
     }
     .content-center {
         display: grid;
@@ -48,7 +60,10 @@ const Wrapper = styled.article`
         row-gap: 1.5rem;
         align-items: center;
         @media (min-width: 576px) {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: auto 1fr;
+        }
+        h5 {
+            margin-right: 1rem;
         }
     }
     .status {

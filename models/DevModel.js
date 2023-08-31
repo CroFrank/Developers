@@ -3,7 +3,7 @@ const DevSchema = new mongoose.Schema({
     name: String,
     age: Number,
     location: String,
-    skills: [String],
+    skills: String,
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User'

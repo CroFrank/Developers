@@ -20,7 +20,7 @@ if (process.env.NODE_ENV) {
 }
 
 app.use('/api/v1/user', userRouter)
-app.use('/api/v1/alldevelopers', authUser, devRouter)
+app.use('/api/v1/alldevelopers', devRouter)
 app.use('/api/v1/stats', authUser, statsRouter)
 
 //error handling

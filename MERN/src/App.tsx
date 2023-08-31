@@ -7,14 +7,16 @@ import {
     Landing,
     Error,
     Admin,
-    AllJobs,
+    AllDevs,
     Profile,
     Stats,
-    Developer,
+    AddDev,
 } from './pages'
 import { RegisterAction } from './pages/Register'
 import { LoginAction } from './pages/Login'
 import { Loader } from './pages/DashboardLayout'
+import { ActionAddDev } from './pages/AddDev'
+import { Loader as allDevsLoader } from './pages/AllDevs'
 
 const checkSavedTheme = () => {
     const darkTheme = localStorage.getItem('theme') === 'true'
@@ -51,15 +53,17 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <Developer />,
+                        element: <AddDev />,
+                        action: ActionAddDev
                     },
                     {
                         path: 'admin',
                         element: <Admin />,
                     },
                     {
-                        path: 'alldevelopers',
-                        element: <AllJobs />,
+                        path: 'alldevs',
+                        element: <AllDevs />,
+                        loader: allDevsLoader
                     },
                     {
                         path: 'profile',
