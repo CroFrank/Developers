@@ -1,7 +1,15 @@
 import { createContext, useContext } from 'react'
 
+interface User {
+    name: string
+    password: string
+    email: string
+    role: string
+    _id: string
+}
+
 interface DashboardContextProps {
-    user: { name: string }
+    user: User
     toggleSidebar: () => void
     toggleDarkTheme: () => void
     logoutUser: () => void

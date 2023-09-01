@@ -11,12 +11,17 @@ import {
     Profile,
     Stats,
     AddDev,
+    EditDev
 } from './pages'
 import { RegisterAction } from './pages/Register'
 import { LoginAction } from './pages/Login'
 import { Loader } from './pages/DashboardLayout'
 import { ActionAddDev } from './pages/AddDev'
 import { Loader as allDevsLoader } from './pages/AllDevs'
+import { Loader as editDevLoader } from './pages/EditDev'
+import { Action as editDevAction } from './pages/EditDev'
+import { Action as deleteAction } from './pages/DeleteDev'
+import { Loader as adminLoader } from './pages/Admin'
 
 const checkSavedTheme = () => {
     const darkTheme = localStorage.getItem('theme') === 'true'
@@ -59,11 +64,12 @@ const router = createBrowserRouter([
                     {
                         path: 'admin',
                         element: <Admin />,
+                        loader: adminLoader
                     },
                     {
                         path: 'alldevs',
                         element: <AllDevs />,
-                        loader: allDevsLoader
+                        loader: allDevsLoader,
                     },
                     {
                         path: 'profile',
@@ -73,6 +79,16 @@ const router = createBrowserRouter([
                         path: 'stats',
                         element: <Stats />,
                     },
+                    {
+                        path: 'edit-dev/:id',
+                        element: <EditDev />,
+                        loader: editDevLoader,
+                        action: editDevAction
+                    },
+                    {
+                        path: 'deletedev/:id',
+                        action: deleteAction
+                    }
                 ],
             },
         ],

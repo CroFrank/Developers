@@ -8,6 +8,8 @@ export const NavLinks = ({ isBigsidebar }: { isBigsidebar: boolean }) => {
         <div className="nav-links">
             {links.map((link) => {
                 const { text, path, icon } = link
+                const role = data?.user.role
+                if (path === 'admin' && role === 'user') return
                 return (
                     <NavLink
                         to={path}

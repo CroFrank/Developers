@@ -1,6 +1,8 @@
-import { Link, Form } from "react-router-dom"
+//import { Link, Form } from "react-router-dom"
 import Wrapper from "../assets/wrappers/Dev"
 import { SingleDevContextProps } from "../hooks/AllDevsContext"
+import { Test } from "./Test"
+
 
 export const Dev = (dev: SingleDevContextProps) => {
     const { skills, name, age, location } = dev
@@ -19,12 +21,9 @@ export const Dev = (dev: SingleDevContextProps) => {
                 <p>{skills}</p>
             </div>
             <footer className="actions">
-                <Link to={'/'} className="btn edit-btn">Edit</Link>
-                <Form>
-                    <button type="submit" className="btn delete-btn">
-                        delete
-                    </button>
-                </Form>
+
+                <Test name={name} />
+
             </footer>
         </div>
 

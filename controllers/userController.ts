@@ -25,7 +25,7 @@ export const loginUser: RequestHandler = async (req, res) => {
         expires: new Date(Date.now() + (1000 * 3600 * 24)),
         secure: process.env.NODE_ENV === 'production'
     })
-    res.status(StatusCodes.OK).json({ msg: 'user logged in' })
+    res.status(StatusCodes.OK).json({ user, msg: 'user created' })
 }
 
 export const logout: RequestHandler = (req, res) => {

@@ -5,4 +5,5 @@ export { default as SmallSidebar } from './SmallSidebar'
 export { default as Navbar } from './Navbar'
 export { default as DevsContainer } from './DevsContainer'
 export { default as SearchContainer } from './SearchContainer'
+export { default as StatItem } from './StatItem'
 
