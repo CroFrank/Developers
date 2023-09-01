@@ -10,7 +10,13 @@ import statsRouter from './routes/statsRouter.js';
 import { errorHandleMiddelware } from './middleware/errorHandleMiddelware.js';
 import { authUser } from './middleware/authMiddelware.js';
 import cookieParser from 'cookie-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(path.resolve(__dirname, './public')));
 app.use(cookieParser());
 app.use(express.json());
 if (process.env.NODE_ENV) {
@@ -19,7 +25,9 @@ if (process.env.NODE_ENV) {
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/alldevelopers', devRouter);
 app.use('/api/v1/stats', authUser, statsRouter);
-//error handling
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+});
 app.use('*', (req, res) => {
     res.status(404).json({ msg: 'Page not found' });
 });
