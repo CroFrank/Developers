@@ -15,13 +15,13 @@ export const Loader = async () => {
     }
 }
 
-interface Data {
-    _id: string,
-    name: string,
-    email: string,
-    role: string,
-    password: string
-    __v: number
+export interface Data {
+    _id?: string,
+    name?: string,
+    email?: string,
+    role?: string,
+    password?: string
+    __v?: number
 }
 
 export default function DashboardLayout({ checkSavedTheme }: { checkSavedTheme: () => boolean }) {

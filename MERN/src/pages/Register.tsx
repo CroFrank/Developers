@@ -7,7 +7,6 @@ import { toast } from 'react-toastify'
 export const RegisterAction = async (incomingData: { request: Request }) => {
     const formData = await incomingData.request.formData()
     const data = Object.fromEntries(formData)
-    console.log(data)
     try {
         await customFetch.post('/user/register', { ...data, "role": "" })
         toast.success('Success!', {

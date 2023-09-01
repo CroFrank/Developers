@@ -22,7 +22,7 @@ export const Dev = (dev: SingleDevContextProps) => {
             </div>
             <footer className="actions">
 
-                <Test name={name} />
+                <Test dev={dev} />
 
             </footer>
         </div>
