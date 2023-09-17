@@ -30,7 +30,6 @@ const checkSavedTheme = () => {
 }
 
 checkSavedTheme()
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -98,5 +97,6 @@ const router = createBrowserRouter([
 const App = () => {
     return <RouterProvider router={router} />
 }
+
 
 export default App

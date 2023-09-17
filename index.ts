@@ -11,7 +11,8 @@ import { errorHandleMiddelware } from './middleware/errorHandleMiddelware.js'
 import { authUser } from './middleware/authMiddelware.js'
 import cookieParser from 'cookie-parser'
 import path from 'path'
-import { fileURLToPath } from 'url';
+
+
 import { dirname } from 'path';
 
 const app = express()
