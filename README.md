@@ -2,7 +2,7 @@ App link:
 https://developers-r9xd.onrender.com
 
 This is my first MERN (mongo, express, react, node) app.
-It is not completely finished yet but you can feel free to contribute to my code.
+It is not completely finished.
 
 The idea of this app is to make a place where you can register and quote your developing skills, search for other developers and connect with them.
 
